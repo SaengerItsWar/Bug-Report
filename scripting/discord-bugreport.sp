@@ -7,7 +7,7 @@
 #pragma semicolon 1
 #pragma newdecls required
 
-#define PLUGIN_VERSION "1.0.0"
+#define PLUGIN_VERSION "1.0.3"
 
 char g_cCurrentMap[PLATFORM_MAX_PATH];
 
@@ -55,7 +55,7 @@ public void OnMapStart() {
 }
 
 public Action Command_bugreport(int client, int args) {
-	if (args > 1) {
+	if (args < 1) {
 		ReplyToCommand(client, "[\x04SM\x01] Usage:sm_bug <Bug Info>");
 		return Plugin_Handled;
 	}
@@ -85,8 +85,11 @@ public Action Command_bugreport(int client, int args) {
 	Format(buffer, sizeof(buffer), "[%N](http://www.steamcommunity.com/profiles/%s)", client, steamid);
 	embed.AddField("Player:", buffer, true);
 	
-	char buginfo[PLATFORM_MAX_PATH];
+	char buginfo[256];
 	GetCmdArg(1, buginfo, sizeof(buginfo));
+	char bugmsg[256];
+	GetCmdArgString(bugmsg, sizeof(bugmsg));
+	Format(buffer, sizeof(buffer), "%s", bugmsg);
 	embed.AddField("Report:", buffer, false);
 	
 	char sURL[1024]; 
