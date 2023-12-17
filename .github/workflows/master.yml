@@ -1,0 +1,25 @@
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  Build:
+    name: Discord-BugReport Master
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup SourcePawn Compiler
+      uses: https://github.com/rumblefrog/setup-sp@master
+      with:
+        version: "1.11.x"
+        GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+
+    - name: Compiling discord-bugreport.sp
+      run: |
+        which spcomp
+        echo $includePath
+        ls -l $scriptingPath
+        cat $(which spcomp)
+        spcomp -iscripting/include scripting/discord-bugreport.sp
